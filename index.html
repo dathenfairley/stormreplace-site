@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StormReplace connects homeowners with licensed roofing contractors after storm damage. Free inspection. No obligation. Storm roof replacement, simplified.">
+  <title>StormReplace — Storm Roof Replacement, Simplified</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body { max-width: 480px; margin: 0 auto; }
+
+    .site-header { padding: 12px 18px; }
+
+    .header-badge {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--amber); border: 1px solid var(--amber-dim);
+      padding: 4px 8px; border-radius: 3px;
+      background: rgba(245,158,11,0.08);
+    }
+
+    /* HERO */
+    .hero {
+      background: var(--slate-900);
+      padding: 28px 20px 24px;
+      position: relative; overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(-55deg, transparent, transparent 2px, rgba(245,158,11,0.03) 2px, rgba(245,158,11,0.03) 3px),
+        radial-gradient(ellipse at 85% 10%, rgba(245,158,11,0.12) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute; top: -20px; right: -30px;
+      width: 3px; height: 140%;
+      background: linear-gradient(180deg, transparent, var(--amber), transparent);
+      transform: rotate(15deg); opacity: 0.3; pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .referral-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px; padding: 5px 10px; margin-bottom: 18px;
+    }
+
+    .referral-dot { width: 5px; height: 5px; background: #4ade80; border-radius: 50%; flex-shrink: 0; }
+
+    .referral-text { font-size: 10px; font-weight: 400; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
+
+    .campaign-line {
+      font-family: 'Oswald', sans-serif;
+      font-size: 42px; font-weight: 700;
+      color: var(--white); line-height: 1.0;
+      letter-spacing: 0.01em; margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .campaign-line .amber { color: var(--amber); display: block; }
+
+    .hero-body {
+      font-size: 13.5px; font-weight: 300;
+      color: rgba(255,255,255,0.65); line-height: 1.65;
+      margin-bottom: 22px;
+    }
+
+    .hero-body strong { color: rgba(255,255,255,0.85); font-weight: 700; }
+
+    .phone-cta {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--amber); border-radius: 6px;
+      padding: 14px 16px; text-decoration: none; border: none;
+      width: 100%; cursor: pointer; margin-bottom: 10px;
+      transition: background 0.15s;
+    }
+
+    .phone-cta:hover { background: var(--amber-light); }
+
+    .phone-eyebrow {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(15,25,35,0.65); display: block; margin-bottom: 2px;
+    }
+
+    .phone-number {
+      font-family: 'Oswald', sans-serif;
+      font-size: 28px; font-weight: 700;
+      color: var(--slate-900); letter-spacing: 0.03em; line-height: 1;
+    }
+
+    .phone-icon-wrap {
+      background: rgba(15,25,35,0.15); border-radius: 50%;
+      width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    .phone-icon-wrap svg { fill: var(--slate-900); width: 20px; height: 20px; }
+
+    .or-row { display: flex; align-items: center; gap: 10px; padding: 0 4px; }
+    .or-row::before, .or-row::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+    .or-row span { font-size: 10px; color: rgba(255,255,255,0.3); font-weight: 400; letter-spacing: 0.06em; }
+
+    /* TRUST STRIP */
+    .trust-strip {
+      background: var(--slate-800); padding: 10px 18px;
+      display: flex; border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .trust-item { flex: 1; text-align: center; padding: 0 4px; border-right: 1px solid rgba(255,255,255,0.08); }
+    .trust-item:last-child { border-right: none; }
+    .trust-val { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; color: var(--amber); display: block; line-height: 1.2; letter-spacing: 0.04em; }
+    .trust-lbl { font-size: 9px; font-weight: 400; color: rgba(255,255,255,0.35); line-height: 1.3; display: block; margin-top: 2px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+    /* DISCLOSURE */
+    .disclosure-bar {
+      background: #162438; border-left: 3px solid var(--amber);
+      padding: 11px 14px; margin: 14px 18px 0; border-radius: 0 4px 4px 0;
+    }
+
+    .disclosure-bar p { font-size: 11.5px; font-weight: 400; color: rgba(255,255,255,0.55); line-height: 1.55; margin: 0; }
+    .disclosure-bar p strong { color: rgba(255,255,255,0.8); font-weight: 700; }
+
+    /* FORM */
+    .form-section { background: var(--white); padding: 22px 18px; border-bottom: 1px solid var(--gray-100); }
+
+    .form-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 4px; }
+
+    .form-title { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 600; color: var(--slate-900); letter-spacing: 0.02em; margin-bottom: 4px; text-transform: uppercase; }
+
+    .form-sub { font-size: 12.5px; font-weight: 300; color: var(--gray-500); line-height: 1.5; margin-bottom: 18px; }
+
+    .field-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .field { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+
+    .field label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-600); }
+
+    .field input, .field select {
+      height: 44px; border: 1.5px solid var(--gray-100); border-radius: 5px;
+      padding: 0 12px; font-size: 14px; font-family: 'Lato', sans-serif;
+      color: var(--text); background: #f8fafc;
+      transition: border-color 0.15s, background 0.15s;
+      -webkit-appearance: none; appearance: none; outline: none;
+    }
+
+    .field input:focus, .field select:focus { border-color: var(--amber); background: white; }
+    .field input::placeholder { color: var(--gray-300); }
+
+    .sel-wrap { position: relative; }
+    .sel-wrap::after { content: '▾'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; font-size: 11px; }
+
+    .req { color: var(--red); margin-left: 2px; }
+    .full-field { margin-bottom: 10px; }
+
+    .submit-btn {
+      width: 100%; height: 52px; background: var(--slate-900); color: white;
+      border: none; border-radius: 6px;
+      font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 18px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; margin-top: 14px; transition: background 0.15s;
+      position: relative; overflow: hidden;
+    }
+
+    .submit-btn::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--amber); }
+    .submit-btn:hover { background: var(--slate-700); }
+
+    .tcpa-block { margin-top: 13px; padding-top: 13px; border-top: 1px solid #f1f5f9; }
+
+    .tcpa-text { font-size: 10px; font-weight: 300; color: var(--gray-400); line-height: 1.65; }
+    .tcpa-text strong { color: var(--gray-600); font-weight: 700; }
+    .tcpa-text a { color: var(--gray-400); }
+
+    /* TESTIMONIALS */
+    .testimonials { padding: 22px 18px; background: #f8fafc; border-bottom: 1px solid var(--gray-100); }
+
+    .section-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 4px; }
+
+    .section-title { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; color: var(--slate-900); text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 4px; }
+
+    .results-disclaimer { font-size: 10.5px; font-weight: 300; color: var(--gray-400); margin-bottom: 14px; line-height: 1.5; }
+
+    .rating-bar { display: flex; align-items: center; gap: 10px; background: white; border: 1px solid var(--gray-100); border-radius: 6px; padding: 10px 13px; margin-bottom: 12px; }
+    .rating-stars { font-size: 17px; color: var(--amber); letter-spacing: 1px; line-height: 1; }
+    .rating-num { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; color: var(--slate-900); line-height: 1; }
+    .rating-label { font-size: 10px; font-weight: 300; color: var(--gray-400); margin-top: 1px; }
+
+    .review-card { background: white; border: 1px solid var(--gray-100); border-radius: 6px; padding: 14px; margin-bottom: 10px; border-left: 3px solid var(--amber); }
+    .review-card:last-of-type { margin-bottom: 0; }
+
+    .review-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+    .reviewer-name { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 500; color: var(--slate-900); letter-spacing: 0.02em; line-height: 1.2; }
+    .reviewer-loc { font-size: 10px; font-weight: 300; color: var(--gray-400); margin-top: 1px; }
+    .review-stars { font-size: 11px; color: var(--amber); letter-spacing: 1px; flex-shrink: 0; }
+    .review-text { font-size: 12.5px; font-weight: 300; color: var(--gray-600); line-height: 1.65; font-style: italic; margin-bottom: 8px; }
+    .review-footer { display: flex; align-items: center; justify-content: space-between; }
+    .review-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: #fef3c7; color: var(--amber-dim); padding: 2px 7px; border-radius: 20px; }
+    .review-source { font-size: 9px; font-weight: 300; color: var(--gray-400); }
+
+    /* HOW IT WORKS */
+    .hiw { background: white; padding: 22px 18px; border-bottom: 1px solid var(--gray-100); }
+
+    .step { display: flex; gap: 13px; margin-bottom: 16px; align-items: flex-start; }
+    .step:last-child { margin-bottom: 0; }
+    .step-n { width: 28px; height: 28px; background: var(--slate-900); color: var(--amber); border-radius: 50%; font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .step-title { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--slate-900); letter-spacing: 0.02em; margin-bottom: 3px; text-transform: uppercase; }
+    .step-body { font-size: 12px; font-weight: 300; color: var(--gray-500); line-height: 1.5; }
+
+    /* INSURANCE NOTE */
+    .insurance-note { background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 13px 15px; margin: 14px 18px 0; }
+    .ins-title { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; color: var(--amber-dim); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+    .ins-body { font-size: 11.5px; font-weight: 300; color: #78350f; line-height: 1.6; }
+
+    /* EXPECT */
+    .expect { background: white; padding: 22px 18px; border-bottom: 1px solid var(--gray-100); margin-top: 14px; }
+    .expect-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+    .expect-row:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .check-circle { width: 20px; height: 20px; background: #dcfce7; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .check-circle svg { fill: var(--green); width: 11px; height: 11px; }
+    .expect-text { font-size: 12.5px; font-weight: 300; color: #334155; line-height: 1.55; }
+
+    /* STICKY BAR */
+    .sticky-bar { position: sticky; bottom: 0; background: var(--slate-900); border-top: 2px solid var(--amber); padding: 10px 18px; display: flex; align-items: center; justify-content: space-between; z-index: 100; }
+    .sticky-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .sticky-number { font-family: 'Oswald', sans-serif; font-size: 21px; font-weight: 700; color: white; line-height: 1.1; letter-spacing: 0.03em; }
+    .sticky-btn { background: var(--amber); color: var(--slate-900); border: none; border-radius: 5px; padding: 10px 18px; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+    .sticky-btn:hover { background: var(--amber-light); }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo-area" href="index.html">
+    <div class="logo-name">Storm<span>Replace</span></div>
+    <div class="brand-descriptor">Storm roof replacement, simplified</div>
+  </a>
+  <span class="header-badge">Free Service</span>
+</header>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="referral-pill">
+      <div class="referral-dot"></div>
+      <span class="referral-text">Connecting homeowners with licensed contractors</span>
+    </div>
+    <div class="campaign-line">
+      Storm damage<br>doesn't wait.<br>
+      <span class="amber">Neither do we.</span>
+    </div>
+    <p class="hero-body">
+      We connect you with <strong>licensed, insured roofing contractors</strong> in your area — at no cost to you. Storm damage may be covered by your homeowner's insurance. Request a free inspection to find out.
+    </p>
+    <a class="phone-cta" href="tel:+18005551234">
+      <div>
+        <span class="phone-eyebrow">Call for a free inspection</span>
+        <div class="phone-number">(800) 555-1234</div>
+      </div>
+      <div class="phone-icon-wrap">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+        </svg>
+      </div>
+    </a>
+    <div class="or-row"><span>or request a callback below</span></div>
+  </div>
+</div>
+
+<div class="trust-strip">
+  <div class="trust-item"><span class="trust-val">Licensed</span><span class="trust-lbl">Verified pros</span></div>
+  <div class="trust-item"><span class="trust-val">Free</span><span class="trust-lbl">No obligation</span></div>
+  <div class="trust-item"><span class="trust-val">Fast</span><span class="trust-lbl">Same-day reply</span></div>
+  <div class="trust-item"><span class="trust-val">50 States</span><span class="trust-lbl">Nationwide</span></div>
+</div>
+
+<div class="disclosure-bar">
+  <p><strong>How this works:</strong> StormReplace is a free contractor matching service. We connect homeowners with pre-screened local roofing professionals. We are not a roofing contractor and do not perform roofing work.</p>
+</div>
+
+<div class="form-section">
+  <div class="form-eyebrow">No obligation · Takes 60 seconds</div>
+  <div class="form-title">Request Your Free Inspection</div>
+  <p class="form-sub">A licensed contractor in your area will contact you to schedule a free, no-pressure roof assessment.</p>
+
+  <div class="field-row">
+    <div class="field"><label>First name <span class="req">*</span></label><input type="text" placeholder="John" required></div>
+    <div class="field"><label>Last name <span class="req">*</span></label><input type="text" placeholder="Smith" required></div>
+  </div>
+  <div class="full-field field"><label>Phone number <span class="req">*</span></label><input type="tel" placeholder="(555) 000-0000" required></div>
+  <div class="full-field field"><label>Property address <span class="req">*</span></label><input type="text" placeholder="123 Main St, City, State, ZIP" required></div>
+  <div class="field-row">
+    <div class="field">
+      <label>Damage type</label>
+      <div class="sel-wrap">
+        <select>
+          <option value="">Select...</option>
+          <option>Storm / hail damage</option>
+          <option>Roof leak</option>
+          <option>Wind damage</option>
+          <option>Inspection needed</option>
+          <option>Full replacement</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Property type</label>
+      <div class="sel-wrap">
+        <select>
+          <option value="">Select...</option>
+          <option>Single family</option>
+          <option>Condo / townhouse</option>
+          <option>Multi-family</option>
+          <option>Commercial</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="full-field field">
+    <label>Do you have homeowner's insurance?</label>
+    <div class="sel-wrap">
+      <select>
+        <option value="">Select...</option>
+        <option>Yes</option>
+        <option>No</option>
+        <option>Not sure</option>
+      </select>
+    </div>
+  </div>
+  <button class="submit-btn">Request My Free Inspection</button>
+  <div class="tcpa-block">
+    <p class="tcpa-text">By clicking "Request My Free Inspection," you authorize <strong>StormReplace</strong> and up to four roofing contractors in our network to contact you at the phone number provided, including via telephone, text message, and email — which may include the use of auto-dialed and/or pre-recorded calls or messages. <strong>Your consent is not required as a condition of receiving any service.</strong> Msg &amp; data rates may apply. Reply STOP to opt out of texts. View our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms of Service</a>.</p>
+  </div>
+</div>
+
+<div class="testimonials">
+  <div class="section-eyebrow">Homeowner reviews</div>
+  <div class="section-title">Trusted Across the Country</div>
+  <p class="results-disclaimer">Individual results and experiences may vary. Reviews reflect personal experiences with our matching service and connected contractors.</p>
+  <div class="rating-bar">
+    <div class="rating-stars">★★★★★</div>
+    <div><div class="rating-num">4.8 / 5</div><div class="rating-label">Based on verified homeowner reviews</div></div>
+  </div>
+  <div class="review-card">
+    <div class="review-top">
+      <div><div class="reviewer-name">Sandra M.</div><div class="reviewer-loc">Dallas, TX</div></div>
+      <div class="review-stars">★★★★★</div>
+    </div>
+    <p class="review-text">"Submitted the form after the hailstorm and had a contractor calling me within the hour. He walked me through everything step by step and I felt completely informed the whole time."</p>
+    <div class="review-footer"><span class="review-tag">Fast Response</span><span class="review-source">Verified Google Review</span></div>
+  </div>
+  <div class="review-card">
+    <div class="review-top">
+      <div><div class="reviewer-name">Marcus T.</div><div class="reviewer-loc">Columbus, OH</div></div>
+      <div class="review-stars">★★★★★</div>
+    </div>
+    <p class="review-text">"The contractor was thorough, knowledgeable, and there was zero pressure. The inspection was genuinely free with no sales pitch at the end. Exactly what they promised."</p>
+    <div class="review-footer"><span class="review-tag">No Pressure</span><span class="review-source">Verified Google Review</span></div>
+  </div>
+  <div class="review-card">
+    <div class="review-top">
+      <div><div class="reviewer-name">Brenda K.</div><div class="reviewer-loc">Nashville, TN</div></div>
+      <div class="review-stars">★★★★☆</div>
+    </div>
+    <p class="review-text">"I had no idea where to even start after the storm. The form took one minute. The contractor who called was local and professional. Much easier than I expected."</p>
+    <div class="review-footer"><span class="review-tag">Easy Process</span><span class="review-source">Verified Facebook Review</span></div>
+  </div>
+</div>
+
+<div class="hiw">
+  <div class="section-eyebrow">The process</div>
+  <div class="section-title" style="margin-bottom:14px">How It Works</div>
+  <div class="step"><div class="step-n">1</div><div><div class="step-title">Submit your request</div><div class="step-body">Tell us your address and the type of damage. Takes about 60 seconds.</div></div></div>
+  <div class="step"><div class="step-n">2</div><div><div class="step-title">Get matched with a local contractor</div><div class="step-body">We connect you with a licensed, insured roofer who serves your area. No obligation to hire anyone.</div></div></div>
+  <div class="step"><div class="step-n">3</div><div><div class="step-title">Free roof inspection</div><div class="step-body">Your contractor inspects at no charge and provides a written assessment of the damage.</div></div></div>
+  <div class="step"><div class="step-n">4</div><div><div class="step-title">You decide — zero pressure</div><div class="step-body">You choose whether to proceed. Your contractor can advise on the insurance process if applicable.</div></div></div>
+</div>
+
+<div class="insurance-note">
+  <div class="ins-title">ℹ️ About insurance coverage</div>
+  <p class="ins-body">Many homeowner's policies cover sudden storm, hail, or wind damage. Whether your damage is covered depends on your specific policy, the cause, and your deductible. Coverage is determined solely by your insurance provider. We do not guarantee any insurance outcome.</p>
+</div>
+
+<div class="expect">
+  <div class="section-eyebrow">What to expect</div>
+  <div class="section-title" style="margin-bottom:14px">What Happens Next</div>
+  <div class="expect-row"><div class="check-circle"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div class="expect-text">A contractor will contact you to schedule your inspection — typically within a few hours during business hours.</div></div>
+  <div class="expect-row"><div class="check-circle"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div class="expect-text">The inspection is completely free with no obligation to hire or purchase any services.</div></div>
+  <div class="expect-row"><div class="check-circle"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div class="expect-text">All contractors in our network are verified for valid licensing and insurance in their state.</div></div>
+  <div class="expect-row"><div class="check-circle"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div class="expect-text">This service is free to you. Contractors pay a fee to be listed — you are never charged.</div></div>
+</div>
+
+<footer class="page-footer">
+  <div class="footer-logo-name">Storm<span>Replace</span></div>
+  <div class="footer-descriptor">Storm roof replacement, simplified</div>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <p>A free contractor referral and matching service. We connect homeowners with licensed roofing professionals. We are not a roofing contractor.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Legal</div>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="do-not-sell.html">Do Not Sell My Info</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-links-row">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="about.html">About Us</a>
+      <a href="do-not-sell.html">Do Not Sell My Info</a>
+    </div>
+    <p class="footer-legal">© 2026 StormReplace. All rights reserved. Not affiliated with any insurance provider or government agency. Coverage determinations made solely by your insurer. StormReplace is a referral service, not a roofing contractor.</p>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <div>
+    <div class="sticky-eyebrow">Free inspection · No obligation</div>
+    <div class="sticky-number">(800) 555-1234</div>
+  </div>
+  <button class="sticky-btn" onclick="window.location.href='tel:+18005551234'">Call Now</button>
+</div>
+
+</body>
+</html>

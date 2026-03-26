@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — StormReplace</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    .contact-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 20px; }
+    .contact-card { background: white; border: 1px solid var(--gray-100); border-radius: 8px; padding: 20px; }
+    .contact-card-title { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 16px; color: var(--slate-900); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid var(--amber); }
+    .contact-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+    .contact-row:last-child { margin-bottom: 0; }
+    .contact-icon { width: 32px; height: 32px; background: #fffbeb; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .contact-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 2px; }
+    .contact-value { font-size: 14px; color: var(--slate-900); font-weight: 400; line-height: 1.4; }
+    .contact-value a { color: var(--blue); }
+    .hours-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f8fafc; font-size: 13px; }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day { color: var(--gray-600); font-weight: 300; }
+    .hours-time { color: var(--slate-900); font-weight: 700; }
+    .form-card { background: white; border: 1px solid var(--gray-100); border-radius: 8px; padding: 20px; }
+    .form-card-title { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 16px; color: var(--slate-900); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid var(--amber); }
+    .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+    .field label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-600); }
+    .field input, .field select, .field textarea { border: 1.5px solid var(--gray-100); border-radius: 5px; padding: 10px 12px; font-size: 14px; font-family: 'Lato', sans-serif; color: var(--text); background: #f8fafc; outline: none; transition: border-color 0.15s; -webkit-appearance: none; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--amber); background: white; }
+    .field textarea { height: 110px; resize: vertical; line-height: 1.5; }
+    .field input::placeholder, .field textarea::placeholder { color: var(--gray-300); }
+    .sel-wrap { position: relative; }
+    .sel-wrap::after { content: '▾'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; font-size: 11px; }
+    .submit-btn { width: 100%; height: 48px; background: var(--slate-900); color: white; border: none; border-radius: 6px; font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+    .submit-btn:hover { background: var(--slate-700); }
+    .form-note { font-size: 11px; color: var(--gray-400); margin-top: 10px; text-align: center; font-weight: 300; }
+    .urgent-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 14px 16px; margin-bottom: 20px; }
+    .urgent-title { font-weight: 700; font-size: 14px; color: var(--red); margin-bottom: 4px; }
+    .urgent-body { font-size: 13px; color: #7f1d1d; line-height: 1.5; font-weight: 300; }
+    .urgent-body a { color: var(--red); font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo-area" href="index.html">
+    <div class="logo-name">Storm<span>Replace</span></div>
+    <div class="brand-descriptor">Storm roof replacement, simplified</div>
+  </a>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="index.html" class="cta-link">Get Matched</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <h1>Contact Us</h1>
+  <p>We typically respond within 1 business day</p>
+</div>
+
+<main class="page-content">
+
+  <div class="urgent-box">
+    <div class="urgent-title">⚠️ Urgent roof damage?</div>
+    <div class="urgent-body">For active leaks or storm damage needing immediate attention, call <strong>(800) 555-1234</strong> or <a href="index.html">submit a request online</a> for a faster contractor response.</div>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-card-title">Contact Information</div>
+      <div class="contact-row">
+        <div class="contact-icon">📞</div>
+        <div><div class="contact-label">Phone</div><div class="contact-value"><a href="tel:+18005551234">(800) 555-1234</a></div></div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">✉️</div>
+        <div><div class="contact-label">General Inquiries</div><div class="contact-value"><a href="mailto:info@stormreplace.com">info@stormreplace.com</a></div></div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">🔒</div>
+        <div><div class="contact-label">Privacy Requests</div><div class="contact-value"><a href="mailto:privacy@stormreplace.com">privacy@stormreplace.com</a></div></div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">📍</div>
+        <div><div class="contact-label">Mailing Address</div><div class="contact-value">StormReplace<br>[Street Address]<br>[City, State, ZIP]</div></div>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-card-title">Business Hours</div>
+      <div class="hours-row"><span class="hours-day">Monday – Friday</span><span class="hours-time">8:00 AM – 6:00 PM CT</span></div>
+      <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">9:00 AM – 3:00 PM CT</span></div>
+      <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time">Closed</span></div>
+      <p style="font-size:12px;color:var(--gray-400);margin-top:12px;font-weight:300;line-height:1.5;">Requests submitted outside business hours will be processed the next business day.</p>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">Send Us a Message</div>
+      <p style="font-size:13px;color:var(--gray-600);margin-bottom:16px;font-weight:300;line-height:1.5;">For general questions about our service. For roofing requests please use our <a href="index.html">main request form</a>.</p>
+      <div class="field"><label>Full name *</label><input type="text" placeholder="John Smith" required></div>
+      <div class="field"><label>Email address *</label><input type="email" placeholder="john@email.com" required></div>
+      <div class="field"><label>Phone number</label><input type="tel" placeholder="(555) 000-0000"></div>
+      <div class="field">
+        <label>Subject *</label>
+        <div class="sel-wrap">
+          <select required>
+            <option value="">Select a topic...</option>
+            <option>Question about the matching service</option>
+            <option>Issue with a matched contractor</option>
+            <option>Privacy or data request</option>
+            <option>Contractor partnership inquiry</option>
+            <option>Press or media inquiry</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Message *</label><textarea placeholder="Please describe your question or concern..." required></textarea></div>
+      <button class="submit-btn">Send Message</button>
+      <p class="form-note">We respond within 1 business day. For urgent roofing needs call (800) 555-1234.</p>
+    </div>
+  </div>
+
+  <h2>Frequently Asked Questions</h2>
+  <h3>How quickly will a contractor contact me?</h3>
+  <p>After submitting a request during business hours, you can typically expect to hear from a contractor within a few hours.</p>
+  <h3>Is this service really free?</h3>
+  <p>Yes. StormReplace is completely free for homeowners. Contractors pay a fee to receive referrals — you are never charged.</p>
+  <h3>How do I opt out of being contacted?</h3>
+  <p>Reply STOP to any text message, email <a href="mailto:optout@stormreplace.com">optout@stormreplace.com</a>, or call (800) 555-1234. Allow up to 10 business days for processing.</p>
+  <h3>I'm a roofing contractor. How do I join your network?</h3>
+  <p>Email <a href="mailto:contractors@stormreplace.com">contractors@stormreplace.com</a> with your business name, service area, and licensing information.</p>
+
+</main>
+
+<footer class="page-footer">
+  <div class="footer-logo-name">Storm<span>Replace</span></div>
+  <div class="footer-descriptor">Storm roof replacement, simplified</div>
+  <div class="footer-bottom">
+    <div class="footer-links-row">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="about.html">About Us</a>
+      <a href="do-not-sell.html">Do Not Sell My Info</a>
+    </div>
+    <p class="footer-legal">© 2026 StormReplace. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
