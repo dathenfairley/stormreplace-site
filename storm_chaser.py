@@ -149,13 +149,8 @@ def get_active_storm_states():
 def get_qualifying_zipcodes(active_states, extreme_event=False):
     """
     Queries Supabase for qualifying zip codes in alerted states.
-
-    Strategy to stay within Tomorrow.io free tier (25 calls/hour):
-    - Normal storms: Tier 1 only, capped at 20 zip codes per run
-    - Extreme events (tornado warnings): Tier 1 + Tier 2, capped at 22
-
-    Tier 1 zip codes are highest priority — best demographics,
-    most likely to convert. Always checked first.
+    Normal storms: Tier 1 only, capped at 20 zip codes per run.
+    Extreme events (tornado warnings): Tier 1 + Tier 2, capped at 22.
     """
     if not active_states:
         log.info("Step 2: No active storm states — skipping Supabase query")
@@ -171,14 +166,13 @@ def get_qualifying_zipcodes(active_states, extreme_event=False):
         "Range-Unit": "items",
     }
 
-    # Always fetch Tier 1 first — cap at 20
+    # Always fetch Tier 1 first — cap at 20 using Range header
     tier1_params = {
         "select": "zip,city,state,tier,latitude,longitude",
         "state":  f"in.({states_list})",
         "tier":   "eq.Tier 1",
         "latitude":  "not.is.null",
         "longitude": "not.is.null",
-        "limit":  "20",
     }
 
     try:
@@ -202,11 +196,10 @@ def get_qualifying_zipcodes(active_states, extreme_event=False):
             "tier":   "eq.Tier 2",
             "latitude":  "not.is.null",
             "longitude": "not.is.null",
-            "limit":  str(remaining_budget),
         }
         try:
             tier2_headers = {**headers, "Range": f"0-{remaining_budget - 1}"}
-        r2 = requests.get(base_url, params=tier2_params, headers=tier2_headers, timeout=30)
+            r2 = requests.get(base_url, params=tier2_params, headers=tier2_headers, timeout=30)
             r2.raise_for_status()
             tier2_zips = r2.json()
             log.info(f"  Tier 2 zip codes added (extreme event): {len(tier2_zips)}")
@@ -214,8 +207,7 @@ def get_qualifying_zipcodes(active_states, extreme_event=False):
             log.warning(f"Supabase Tier 2 query error (non-fatal): {e}")
 
     zipcodes = tier1_zips + tier2_zips
-    log.info(f"  Total zip codes to check: {len(zipcodes)} "
-             f"(within 25/hour Tomorrow.io limit)")
+    log.info(f"  Total zip codes to check: {len(zipcodes)} (within 25/hour Tomorrow.io limit)")
     return zipcodes
 
 
