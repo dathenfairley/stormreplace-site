@@ -2,10 +2,8 @@ name: StormReplace Storm Chaser
 
 on:
   schedule:
-    # Runs at 6am and 6pm Eastern (11:00 and 23:00 UTC)
     - cron: '0 11 * * *'
     - cron: '0 23 * * *'
-  # Allows manual trigger from GitHub Actions tab for testing
   workflow_dispatch:
 
 jobs:
