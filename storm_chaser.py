@@ -168,6 +168,7 @@ def get_qualifying_zipcodes(active_states, extreme_event=False):
     headers = {
         "apikey": SUPABASE_ANON_KEY,
         "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
+        "Range-Unit": "items",
     }
 
     # Always fetch Tier 1 first — cap at 20
@@ -181,7 +182,8 @@ def get_qualifying_zipcodes(active_states, extreme_event=False):
     }
 
     try:
-        r1 = requests.get(base_url, params=tier1_params, headers=headers, timeout=30)
+        tier1_headers = {**headers, "Range": "0-19"}
+        r1 = requests.get(base_url, params=tier1_params, headers=tier1_headers, timeout=30)
         r1.raise_for_status()
         tier1_zips = r1.json()
     except requests.exceptions.RequestException as e:
@@ -203,7 +205,8 @@ def get_qualifying_zipcodes(active_states, extreme_event=False):
             "limit":  str(remaining_budget),
         }
         try:
-            r2 = requests.get(base_url, params=tier2_params, headers=headers, timeout=30)
+            tier2_headers = {**headers, "Range": f"0-{remaining_budget - 1}"}
+        r2 = requests.get(base_url, params=tier2_params, headers=tier2_headers, timeout=30)
             r2.raise_for_status()
             tier2_zips = r2.json()
             log.info(f"  Tier 2 zip codes added (extreme event): {len(tier2_zips)}")
