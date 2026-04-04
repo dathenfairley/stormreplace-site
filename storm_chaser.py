@@ -129,21 +129,33 @@ def get_active_storm_states():
     # Remove non-state codes
     valid_states = {s for s in active_states if len(s) == 2 and s.isalpha()}
 
+    # Detect extreme events — tornado warnings trigger Tier 2 inclusion
+    extreme_event = any(
+        "tornado warning" in f.get("properties", {}).get("event", "").lower()
+        for f in features
+    )
+
     log.info(f"  Relevant roof-damage alerts: {relevant_alert_count}")
+    log.info(f"  Extreme event detected: {extreme_event}")
     log.info(f"  States with active alerts: {sorted(valid_states)}")
 
-    return valid_states
+    return valid_states, extreme_event
 
 
 # ============================================================
 # STEP 2 — GET QUALIFYING ZIP CODES FROM SUPABASE
 # ============================================================
 
-def get_qualifying_zipcodes(active_states):
+def get_qualifying_zipcodes(active_states, extreme_event=False):
     """
-    Queries Supabase for Tier 1 and Tier 2 zip codes
-    in states with active NWS alerts.
-    Returns list of zip code records with lat/long.
+    Queries Supabase for qualifying zip codes in alerted states.
+
+    Strategy to stay within Tomorrow.io free tier (25 calls/hour):
+    - Normal storms: Tier 1 only, capped at 20 zip codes per run
+    - Extreme events (tornado warnings): Tier 1 + Tier 2, capped at 22
+
+    Tier 1 zip codes are highest priority — best demographics,
+    most likely to convert. Always checked first.
     """
     if not active_states:
         log.info("Step 2: No active storm states — skipping Supabase query")
@@ -151,31 +163,56 @@ def get_qualifying_zipcodes(active_states):
 
     log.info(f"Step 2: Querying Supabase for qualifying zip codes in: {sorted(active_states)}")
 
-    # Build state filter for Supabase REST API
-    # Format: state=in.(OH,IN,KY)
     states_list = ",".join(sorted(active_states))
-    url = f"{SUPABASE_URL}/rest/v1/zip_codes"
-    params = {
-        "select": "zip,city,state,tier,latitude,longitude",
-        "state": f"in.({states_list})",
-        "tier": "in.(Tier 1,Tier 2)",
-        "latitude": "not.is.null",
-        "longitude": "not.is.null",
-    }
+    base_url = f"{SUPABASE_URL}/rest/v1/zip_codes"
     headers = {
         "apikey": SUPABASE_ANON_KEY,
         "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
     }
 
+    # Always fetch Tier 1 first — cap at 20
+    tier1_params = {
+        "select": "zip,city,state,tier,latitude,longitude",
+        "state":  f"in.({states_list})",
+        "tier":   "eq.Tier 1",
+        "latitude":  "not.is.null",
+        "longitude": "not.is.null",
+        "limit":  "20",
+    }
+
     try:
-        response = requests.get(url, params=params, headers=headers, timeout=30)
-        response.raise_for_status()
-        zipcodes = response.json()
+        r1 = requests.get(base_url, params=tier1_params, headers=headers, timeout=30)
+        r1.raise_for_status()
+        tier1_zips = r1.json()
     except requests.exceptions.RequestException as e:
-        log.error(f"Supabase query error: {e}")
+        log.error(f"Supabase Tier 1 query error: {e}")
         return []
 
-    log.info(f"  Found {len(zipcodes)} qualifying zip codes to check")
+    log.info(f"  Tier 1 zip codes found: {len(tier1_zips)}")
+
+    # Only add Tier 2 on extreme events AND if we have API call budget remaining
+    tier2_zips = []
+    remaining_budget = 22 - len(tier1_zips)
+    if extreme_event and remaining_budget > 0:
+        tier2_params = {
+            "select": "zip,city,state,tier,latitude,longitude",
+            "state":  f"in.({states_list})",
+            "tier":   "eq.Tier 2",
+            "latitude":  "not.is.null",
+            "longitude": "not.is.null",
+            "limit":  str(remaining_budget),
+        }
+        try:
+            r2 = requests.get(base_url, params=tier2_params, headers=headers, timeout=30)
+            r2.raise_for_status()
+            tier2_zips = r2.json()
+            log.info(f"  Tier 2 zip codes added (extreme event): {len(tier2_zips)}")
+        except requests.exceptions.RequestException as e:
+            log.warning(f"Supabase Tier 2 query error (non-fatal): {e}")
+
+    zipcodes = tier1_zips + tier2_zips
+    log.info(f"  Total zip codes to check: {len(zipcodes)} "
+             f"(within 25/hour Tomorrow.io limit)")
     return zipcodes
 
 
@@ -268,9 +305,9 @@ def check_tomorrow_weather(zipcodes, already_fired):
             api_calls += 1
 
             if response.status_code == 429:
-                log.warning("  Tomorrow.io rate limit hit — pausing 60 seconds")
-                time.sleep(60)
-                continue
+                log.warning(f"  Tomorrow.io rate limit hit after {api_calls} calls — stopping to preserve daily budget")
+                log.warning(f"  {len(to_check) - i} zip codes will be checked next run")
+                break
 
             if response.status_code != 200:
                 log.warning(f"  {zip_code}: Tomorrow.io returned {response.status_code}")
@@ -458,7 +495,7 @@ def main():
     validate_config()
 
     # Step 1: Get active storm states from NWS (free)
-    active_states = get_active_storm_states()
+    active_states, extreme_event = get_active_storm_states()
 
     if not active_states:
         log.info("No active severe weather alerts nationally. Nothing to do.")
@@ -466,7 +503,8 @@ def main():
         return
 
     # Step 2: Get qualifying zip codes from Supabase
-    zipcodes = get_qualifying_zipcodes(active_states)
+    # Tier 1 only on normal days, Tier 1+2 on extreme events
+    zipcodes = get_qualifying_zipcodes(active_states, extreme_event=extreme_event)
 
     if not zipcodes:
         log.info("No qualifying zip codes in alerted states. Nothing to do.")
